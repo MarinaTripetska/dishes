@@ -1,6 +1,7 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import { validationSchema } from "./validationSchema";
+// import s from "./DishesForm.module.css";
 
 type FormValues = {
   name: string;
@@ -27,11 +28,34 @@ const DishesForm: React.FC = () => {
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={async (values, { setSubmitting, resetForm }) => {
+      onSubmit={async (values, { setSubmitting, resetForm, setErrors }) => {
         setSubmitting(true);
-        setTimeout(() => console.log(values), 3000);
-        resetForm();
-        setSubmitting(false);
+        try {
+          const response = await fetch(
+            "https://umzzcc503l.execute-api.us-west-2.amazonaws.com/dishes/",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(values),
+            }
+          );
+
+          if (!response.ok) {
+            const error = await response.json();
+            // console.log(error);
+            setErrors(error);
+          } else {
+            // const data = await response.json();
+            // console.log("success POST: ", data);
+            resetForm();
+          }
+        } catch (error) {
+          console.error("Error:", error);
+        } finally {
+          setSubmitting(false);
+        }
       }}
     >
       {({ values, isSubmitting, errors, touched, isValid }) => (
@@ -57,6 +81,11 @@ const DishesForm: React.FC = () => {
               name="preparation_time"
               type="text"
               placeholder="00:00:00"
+              // className={
+              //   errors.preparation_time && touched.preparation_time
+              //     ? s.time_error
+              //     : s.time_success
+              // }
             />
 
             {errors.preparation_time && touched.preparation_time ? (
