@@ -1,17 +1,9 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import { validationSchema } from "./validationSchema";
+import { FormValues } from "../../types/formValues";
+import { createDish } from "../../API/dishes/create";
 // import s from "./DishesForm.module.css";
-
-type FormValues = {
-  name: string;
-  preparation_time: string;
-  type: "pizza" | "soup" | "sandwich";
-  no_of_slices?: number;
-  diameter: number;
-  spiciness_scale?: number;
-  slices_of_bread?: number;
-};
 
 const initialValues: FormValues = {
   name: "",
@@ -31,16 +23,7 @@ const DishesForm: React.FC = () => {
       onSubmit={async (values, { setSubmitting, resetForm, setErrors }) => {
         setSubmitting(true);
         try {
-          const response = await fetch(
-            "https://umzzcc503l.execute-api.us-west-2.amazonaws.com/dishes/",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(values),
-            }
-          );
+          const response = await createDish(values);
 
           if (!response.ok) {
             const error = await response.json();
@@ -58,7 +41,7 @@ const DishesForm: React.FC = () => {
         }
       }}
     >
-      {({ values, isSubmitting, errors, touched, isValid }) => (
+      {({ values, isSubmitting, errors, touched, isValid, dirty }) => (
         <Form>
           {isSubmitting && <div>Submitting form...</div>}
 
@@ -160,7 +143,7 @@ const DishesForm: React.FC = () => {
             </div>
           )}
 
-          <button type="submit" disabled={isSubmitting || !isValid}>
+          <button type="submit" disabled={isSubmitting || !(dirty && isValid)}>
             Submit
           </button>
         </Form>
