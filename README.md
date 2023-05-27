@@ -6,5 +6,6 @@ Used packages and libraries:
 - formik
 - yup
 - eslint
+- Also I used **Fontsource** for importing fonts as NPM dependency. About it's advantages you can read [here](https://fontsource.org/docs/getting-started/introduction)
 
-##Here will be link to live project!
+  ##Here will be link to live project!
