@@ -8,13 +8,22 @@ interface TextInputProps extends FieldProps {
 
 const TextInput: React.FC<TextInputProps> = ({ field, form, ...props }) => {
   return (
-    <div className={styles.input}>
-      <div>
-        <label htmlFor={props.id || field.name}>{props.label}</label>
+    <div className={styles.thumb}>
+      <div className={styles.thumb__input_thumb}>
+        <label
+          className={styles.thumb__input_label}
+          htmlFor={props.id || field.name}
+        >
+          {props.label}
+        </label>
         <input type="text" {...field} {...props} />
       </div>
 
-      <ErrorMessage component="p" name={field.name} className={styles.error} />
+      <ErrorMessage
+        component="p"
+        name={field.name}
+        className={styles.validation_error}
+      />
     </div>
   );
 };
