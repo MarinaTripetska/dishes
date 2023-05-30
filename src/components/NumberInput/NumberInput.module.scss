@@ -1,16 +1,18 @@
+@use "../src/styles/variables" as variables;
+
 .thumb {
   position: relative;
-  margin-bottom: 32px;
+  margin-bottom: variables.$main-indent;
   max-width: 200px;
-  color: #525252;
+  color: variables.$main-txt-color;
 
   &__input_thumb {
-    border-bottom: 1px solid #e5e5e5;
+    border-bottom: variables.$input-border;
   }
 
   &__input_thumb:focus,
   &__input_thumb:hover {
-    border-bottom: 1px solid #919191;
+    border-bottom: variables.$input-border-focus;
   }
 
   &__input_label {
@@ -19,11 +21,11 @@
 }
 
 .validation_error {
-  font-size: 12px;
+  font-size: variables.$main-txt-size;
 
   position: absolute;
   bottom: -20px;
   left: 0;
 
-  color: rgb(243, 81, 81);
+  color: variables.$error-txt;
 }

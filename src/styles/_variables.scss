@@ -3,10 +3,27 @@
 /* colors: */
 $bg-color: #fa4251;
 $color-light: #fff;
+$color-light-hv: #e7e7e7;
 $btn-bg-color: #57b846;
+$btn-bg-color-hv: #4e9c41;
+$btn-bg-color-disabled: #314b3a;
+$error-txt: #f35151;
+$main-txt-color: #525252;
+
+/* borders */
+$input-border: 1px solid #e5e5e5;
+$input-border-focus: 1px solid #919191;
+
+/* shadows */
 $main-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+
 /* text sizes */
+$title-size: 30px;
+$main-txt-size: 12px;
+$btn-txt-size: 14px;
 
 /* indentation */
+$main-indent: 32px;
 
 /* animations */
+$main-transition: all 0.4s ease;

@@ -12,8 +12,8 @@
   &__title {
     text-transform: uppercase;
     font-weight: 700;
-    font-size: 30px;
-    margin-bottom: 37px;
+    font-size: variables.$title-size;
+    margin-bottom: variables.$main-indent;
   }
 
   &__images {
@@ -33,13 +33,13 @@
   &__top_thumb {
     display: flex;
     justify-content: space-between;
-    gap: 32px;
+    gap: variables.$main-indent;
   }
 
   &__bottom_thumb {
     display: flex;
     justify-content: space-between;
-    gap: 32px;
+    gap: variables.$main-indent;
   }
 
   &__submit {
@@ -50,25 +50,25 @@
     width: 100%;
     max-width: 120px;
     height: 40px;
-    font-size: 14px;
+    font-size: variables.$btn-txt-size;
     font-weight: 700;
     line-height: 40px;
-    transition: all 0.4s ease;
+    transition: variables.$main-transition;
     color: variables.$color-light;
     background: variables.$btn-bg-color;
     cursor: pointer;
 
     &:hover {
-      background: #4e9c41;
+      background: variables.$btn-bg-color-hv;
     }
     &:disabled {
-      background: #314b3a;
+      background: variables.$btn-bg-color-disabled;
       cursor: not-allowed;
     }
   }
 
   &__error {
-    font-size: 12px;
-    color: rgb(243, 81, 81);
+    font-size: variables.$main-txt-size;
+    color: variables.$error-txt;
   }
 }
