@@ -11,6 +11,7 @@ import TextInput from "../TextInput";
 import { validationSchema } from "./validationSchema";
 import styles from "./DishesForm.module.scss";
 import { setValues } from "../../utils/setValues";
+import { responseTypes } from "../../types/responseTypes";
 
 const initialValues: FormValues = {
   name: "",
@@ -40,7 +41,7 @@ const DishesForm: React.FC = () => {
             setErrors(error);
             setIsResponseError(true);
           } else {
-            const data = await response.json();
+            const data: responseTypes = await response.json();
             console.log("success POST: ", data);
             resetForm();
           }
@@ -108,7 +109,7 @@ const DishesForm: React.FC = () => {
                   <Field
                     id="diameter"
                     name="diameter"
-                    label="Diameter"
+                    label="Diameter (cm)"
                     placeholder="3.5"
                     min="0.1"
                     step="0.1"
