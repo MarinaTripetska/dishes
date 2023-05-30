@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 
-import { FormValues } from "../../types/formValues";
+import { DishValues, FormValues } from "../../types/formValues";
 import { createDish } from "../../API/dishes/create";
 
 import Dropdown from "../Dropdown";
@@ -10,6 +10,7 @@ import TextInput from "../TextInput";
 
 import { validationSchema } from "./validationSchema";
 import styles from "./DishesForm.module.scss";
+import { setValues } from "../../utils/setValues";
 
 const initialValues: FormValues = {
   name: "",
@@ -32,7 +33,7 @@ const DishesForm: React.FC = () => {
         setSubmitting(true);
 
         try {
-          const response = await createDish(values);
+          const response = await createDish(setValues(values));
 
           if (!response.ok) {
             const error = await response.json();
@@ -44,7 +45,7 @@ const DishesForm: React.FC = () => {
             resetForm();
           }
         } catch (error) {
-          console.error("Error:", error);
+          console.error("Error: ", error);
         } finally {
           setSubmitting(false);
           setTimeout(() => setIsResponseError(false), 5000);
@@ -155,7 +156,7 @@ const DishesForm: React.FC = () => {
                 <ul>
                   {Object.keys(errors).map((key, i) => (
                     <li key={i}>
-                      {key}: {errors[key as keyof FormValues]}
+                      {key}: {errors[key as keyof DishValues]}
                     </li>
                   ))}
                 </ul>
