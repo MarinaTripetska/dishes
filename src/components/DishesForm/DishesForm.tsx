@@ -1,5 +1,6 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
+import { toast } from "react-hot-toast";
 
 import { DishValues, FormValues } from "../../types/formValues";
 import { createDish } from "../../API/dishes/create";
@@ -43,10 +44,12 @@ const DishesForm: React.FC = () => {
           } else {
             const data: responseTypes = await response.json();
             console.log("success POST: ", data);
+            toast.success("Your Dish successfully saved!");
             resetForm();
           }
         } catch (error) {
           console.error("Error: ", error);
+          toast.error("Something went wrong!");
         } finally {
           setSubmitting(false);
           setTimeout(() => setIsResponseError(false), 5000);
