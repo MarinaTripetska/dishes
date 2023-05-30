@@ -1,8 +1,9 @@
-import { useFormikContext } from "formik";
+import { ErrorMessage, useFormikContext } from "formik";
 import { useState } from "react";
 import styles from "./Dropdown.module.scss";
 
 interface Props {
+  label?: string;
   field: {
     name: string;
     value: string;
@@ -13,7 +14,7 @@ interface Props {
   options: { label: string; value: string }[];
 }
 
-const Dropdown: React.FC<Props> = ({ field, id, options }) => {
+const Dropdown: React.FC<Props> = ({ label, field, id, options }) => {
   const { setFieldValue } = useFormikContext();
   const [isOpen, setIsOpen] = useState(false);
   const [focusIndex, setFocusIndex] = useState<number | null>(null);
@@ -70,32 +71,40 @@ const Dropdown: React.FC<Props> = ({ field, id, options }) => {
   };
 
   return (
-    <div className={styles.dropdown} id={id}>
-      <div
-        className={styles.dropdown__selected}
-        onClick={toggle}
-        onKeyDown={handleKeyDown}
-        tabIndex={0}
-      >
-        {field.value.charAt(0).toUpperCase() + field.value.slice(1)}
-      </div>
-      {isOpen && (
-        <div className={styles.dropdown__options}>
-          {options.map((option, index) => (
-            <div
-              key={index}
-              onClick={() => {
-                setFieldValue(field.name, option.value);
-                toggle();
-              }}
-              className={`${styles.dropdown__option}
-                ${index === focusIndex && isFocused ? styles.focused : ""}`}
-            >
-              {option.label}
-            </div>
-          ))}
+    <div>
+      {label && <label htmlFor={id}>{label}</label>}
+      <div className={styles.dropdown} id={id}>
+        <div
+          className={styles.dropdown__selected}
+          onClick={toggle}
+          onKeyDown={handleKeyDown}
+          tabIndex={0}
+        >
+          {field.value.charAt(0).toUpperCase() + field.value.slice(1)}
         </div>
-      )}
+        {isOpen && (
+          <div className={styles.dropdown__options}>
+            {options.map((option, index) => (
+              <div
+                key={index}
+                onClick={() => {
+                  setFieldValue(field.name, option.value);
+                  toggle();
+                }}
+                className={`${styles.dropdown__option}
+                ${index === focusIndex && isFocused ? styles.focused : ""}`}
+              >
+                {option.label}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      <ErrorMessage
+        component="p"
+        name={field.name}
+        className={styles.dropdown__error}
+      />
     </div>
   );
 };

@@ -1,11 +1,15 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
-import { validationSchema } from "./validationSchema";
+
 import { FormValues } from "../../types/formValues";
 import { createDish } from "../../API/dishes/create";
-import styles from "./DishesForm.module.scss";
+
 import Dropdown from "../Dropdown";
-import NumberInput from "../NumberInput/NumberInput";
+import NumberInput from "../NumberInput";
+import TextInput from "../TextInput";
+
+import { validationSchema } from "./validationSchema";
+import styles from "./DishesForm.module.scss";
 
 const initialValues: FormValues = {
   name: "",
@@ -32,24 +36,23 @@ const DishesForm: React.FC = () => {
 
           if (!response.ok) {
             const error = await response.json();
-            console.log(error);
             setErrors(error);
             setIsResponseError(true);
           } else {
             const data = await response.json();
             console.log("success POST: ", data);
+            // tostik?
             resetForm();
-            console.log(values);
           }
         } catch (error) {
           console.error("Error:", error);
         } finally {
           setSubmitting(false);
-          setTimeout(() => setIsResponseError(true), 3000);
+          setTimeout(() => setIsResponseError(false), 3000);
         }
       }}
     >
-      {({ values, isSubmitting, errors, touched, isValid, dirty }) => (
+      {({ values, isSubmitting, errors, isValid, dirty }) => (
         <Form className={styles.form}>
           <div className={styles.form__images}></div>
 
@@ -58,58 +61,35 @@ const DishesForm: React.FC = () => {
 
             <div className={styles.form__top_thumb}>
               <div>
-                <div className={styles.form__input_group}>
-                  <div className={styles.form__input}>
-                    <label htmlFor="name">Dishes name</label>
-                    <Field
-                      id="name"
-                      name="name"
-                      type="text"
-                      placeholder="Capricciosa pizza"
-                    />
-                  </div>
-                  {errors.name && touched.name ? (
-                    <p className={styles.validation_error}>{errors.name}</p>
-                  ) : null}
-                </div>
+                <Field
+                  id="name"
+                  name="name"
+                  label="Dishes name"
+                  placeholder="Capricciosa pizza"
+                  component={TextInput}
+                />
 
-                <div className={styles.form__input_group}>
-                  <div className={styles.form__input}>
-                    <label htmlFor="preparation_time">Preparation time</label>
-                    <Field
-                      id="preparation_time"
-                      name="preparation_time"
-                      type="text"
-                      placeholder="00:00:00"
-                    />
-
-                    {errors.preparation_time && touched.preparation_time ? (
-                      <p className={styles.validation_error}>
-                        {errors.preparation_time}
-                      </p>
-                    ) : null}
-                  </div>
-                </div>
+                <Field
+                  id="preparation_time"
+                  name="preparation_time"
+                  label="Preparation time"
+                  placeholder="00:00:00"
+                  component={TextInput}
+                />
               </div>
 
               <div className={styles.form__input_group}>
-                <div>
-                  <label htmlFor="type">Type</label>
-                  <Field
-                    component={Dropdown}
-                    name="type"
-                    id="type"
-                    options={[
-                      { value: "pizza", label: "Pizza" },
-                      { value: "soup", label: "Soup" },
-                      { value: "sandwich", label: "Sandwich" },
-                    ]}
-                  />
-                </div>
-
-                {errors.type && touched.type ? (
-                  <p className={styles.validation_error}>{errors.type}</p>
-                ) : null}
+                <Field
+                  component={Dropdown}
+                  name="type"
+                  id="type"
+                  label="Type"
+                  options={[
+                    { value: "pizza", label: "Pizza" },
+                    { value: "soup", label: "Soup" },
+                    { value: "sandwich", label: "Sandwich" },
+                  ]}
+                />
               </div>
             </div>
 
@@ -158,6 +138,7 @@ const DishesForm: React.FC = () => {
                 component={NumberInput}
               />
             )}
+
             <button
               type="submit"
               className={styles.form__submit}
@@ -165,6 +146,7 @@ const DishesForm: React.FC = () => {
             >
               Submit
             </button>
+
             {isSubmitting && <div>Submitting form...</div>}
 
             {/* Response validation errors: */}
