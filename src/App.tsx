@@ -1,12 +1,13 @@
-import "./App.css";
+import styles from "./App.module.scss";
 import DishForm from "./components/DishesForm";
 
 function App() {
   return (
-    <>
-      <h1>App</h1>
-      <DishForm />
-    </>
+    <main className={styles.main}>
+      <div className={styles.main__thumb}>
+        <DishForm />
+      </div>
+    </main>
   );
 }
 

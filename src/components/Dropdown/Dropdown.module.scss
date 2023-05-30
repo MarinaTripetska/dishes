@@ -1,0 +1,38 @@
+.dropdown {
+  position: relative;
+  width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.dropdown__selected {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown__options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.dropdown:hover .dropdown__options,
+.dropdown:focus .dropdown__options {
+  display: block;
+}
+
+.dropdown__option {
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover,
+  &.focused {
+    background-color: #e7e7e7;
+    cursor: pointer;
+  }
+}

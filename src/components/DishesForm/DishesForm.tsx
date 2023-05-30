@@ -3,7 +3,8 @@ import { Formik, Form, Field } from "formik";
 import { validationSchema } from "./validationSchema";
 import { FormValues } from "../../types/formValues";
 import { createDish } from "../../API/dishes/create";
-// import s from "./DishesForm.module.css";
+import styles from "./DishesForm.module.scss";
+import Dropdown from "../Dropdown";
 
 const initialValues: FormValues = {
   name: "",
@@ -42,110 +43,143 @@ const DishesForm: React.FC = () => {
       }}
     >
       {({ values, isSubmitting, errors, touched, isValid, dirty }) => (
-        <Form>
-          {isSubmitting && <div>Submitting form...</div>}
+        <Form className={styles.form}>
+          <div className={styles.form__images}></div>
 
-          <div>
-            <label htmlFor="name">Provide dishes name</label>
-            <Field
-              id="name"
-              name="name"
-              type="text"
-              placeholder="Capricciosa pizza"
-            />
+          <div className={styles.form__content}>
+            <h1 className={styles.form__title}>Order dish form</h1>
 
-            {errors.name && touched.name ? <div>{errors.name}</div> : null}
-          </div>
-
-          <div>
-            <label htmlFor="preparation_time">Preparation time</label>
-            <Field
-              id="preparation_time"
-              name="preparation_time"
-              type="text"
-              placeholder="00:00:00"
-              // className={
-              //   errors.preparation_time && touched.preparation_time
-              //     ? s.time_error
-              //     : s.time_success
-              // }
-            />
-
-            {errors.preparation_time && touched.preparation_time ? (
-              <div>{errors.preparation_time}</div>
-            ) : null}
-          </div>
-
-          <div>
-            <label htmlFor="type">Type</label>
-            <Field id="type" name="type" as="select">
-              <option value="pizza">Pizza</option>
-              <option value="soup">Soup</option>
-              <option value="sandwich">Sandwich</option>
-            </Field>
-
-            {errors.type && touched.type ? <div>{errors.type}</div> : null}
-          </div>
-
-          {values.type === "pizza" && (
-            <div>
+            <div className={styles.form__top_thumb}>
               <div>
-                <label htmlFor="no_of_slices">Number of slices</label>
-                <Field id="no_of_slices" name="no_of_slices" type="number" />
+                <div className={styles.form__input_group}>
+                  <div className={styles.form__input}>
+                    <label htmlFor="name">Dishes name</label>
+                    <Field
+                      id="name"
+                      name="name"
+                      type="text"
+                      placeholder="Capricciosa pizza"
+                    />
+                  </div>
+                  {errors.name && touched.name ? (
+                    <p className={styles.validation_error}>{errors.name}</p>
+                  ) : null}
+                </div>
 
-                {errors.no_of_slices && touched.no_of_slices ? (
-                  <div>{errors.no_of_slices}</div>
-                ) : null}
+                <div className={styles.form__input_group}>
+                  <div className={styles.form__input}>
+                    <label htmlFor="preparation_time">Preparation time</label>
+                    <Field
+                      id="preparation_time"
+                      name="preparation_time"
+                      type="text"
+                      placeholder="00:00:00"
+                      // className={
+                      //   errors.preparation_time && touched.preparation_time
+                      //     ? s.time_error
+                      //     : s.time_success
+                      // }
+                    />
+
+                    {errors.preparation_time && touched.preparation_time ? (
+                      <p className={styles.validation_error}>
+                        {errors.preparation_time}
+                      </p>
+                    ) : null}
+                  </div>
+                </div>
               </div>
 
-              <div>
-                <label htmlFor="diameter">Diameter</label>
-                <Field id="diameter" name="diameter" type="number" step="0.1" />
+              <div className={styles.form__input_group}>
+                <div>
+                  <label htmlFor="type">Type</label>
+                  <Field
+                    component={Dropdown}
+                    name="type"
+                    options={[
+                      { value: "pizza", label: "Pizza" },
+                      { value: "soup", label: "Soup" },
+                      { value: "sandwich", label: "Sandwich" },
+                    ]}
+                  />
+                </div>
 
-                {errors.diameter && touched.diameter ? (
-                  <div>{errors.diameter}</div>
+                {errors.type && touched.type ? (
+                  <p className={styles.validation_error}>{errors.type}</p>
                 ) : null}
               </div>
             </div>
-          )}
 
-          {values.type === "soup" && (
-            <div>
-              <label htmlFor="spiciness_scale">Spiciness scale</label>
-              <Field
-                id="spiciness_scale"
-                name="spiciness_scale"
-                type="number"
-                min="1"
-                max="10"
-              />
+            {values.type === "pizza" && (
+              <div>
+                <div>
+                  <label htmlFor="no_of_slices">Number of slices</label>
+                  <Field id="no_of_slices" name="no_of_slices" type="number" />
 
-              {errors.spiciness_scale && touched.spiciness_scale ? (
-                <div>{errors.spiciness_scale}</div>
-              ) : null}
-            </div>
-          )}
+                  {errors.no_of_slices && touched.no_of_slices ? (
+                    <div>{errors.no_of_slices}</div>
+                  ) : null}
+                </div>
 
-          {values.type === "sandwich" && (
-            <div>
-              <label htmlFor="slices_of_bread">Slices of bread</label>
-              <Field
-                id="slices_of_bread"
-                name="slices_of_bread"
-                type="number"
-                min="1"
-                max="100"
-              />
+                <div>
+                  <label htmlFor="diameter">Diameter</label>
+                  <Field
+                    id="diameter"
+                    name="diameter"
+                    type="number"
+                    step="0.1"
+                  />
 
-              {errors.slices_of_bread && touched.slices_of_bread ? (
-                <div>{errors.slices_of_bread}</div>
-              ) : null}
-            </div>
-          )}
+                  {errors.diameter && touched.diameter ? (
+                    <div>{errors.diameter}</div>
+                  ) : null}
+                </div>
+              </div>
+            )}
 
-          <button type="submit" disabled={isSubmitting || !(dirty && isValid)}>
-            Submit
-          </button>
+            {values.type === "soup" && (
+              <div>
+                <label htmlFor="spiciness_scale">Spiciness scale</label>
+                <Field
+                  id="spiciness_scale"
+                  name="spiciness_scale"
+                  type="number"
+                  min="1"
+                  max="10"
+                />
+
+                {errors.spiciness_scale && touched.spiciness_scale ? (
+                  <div>{errors.spiciness_scale}</div>
+                ) : null}
+              </div>
+            )}
+
+            {values.type === "sandwich" && (
+              <div>
+                <label htmlFor="slices_of_bread">Slices of bread</label>
+                <Field
+                  id="slices_of_bread"
+                  name="slices_of_bread"
+                  type="number"
+                  min="1"
+                  max="100"
+                />
+
+                {errors.slices_of_bread && touched.slices_of_bread ? (
+                  <div>{errors.slices_of_bread}</div>
+                ) : null}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className={styles.form__submit}
+              disabled={isSubmitting || !(dirty && isValid)}
+            >
+              Submit
+            </button>
+            {isSubmitting && <div>Submitting form...</div>}
+          </div>
         </Form>
       )}
     </Formik>

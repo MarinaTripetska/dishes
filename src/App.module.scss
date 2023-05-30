@@ -1,0 +1,17 @@
+@use "../src/styles/variables" as variables;
+@use "../src/styles/placeholders" as placeholders;
+
+.main {
+  background-color: variables.$bg-color;
+  width: 100vw;
+  height: 100vh;
+}
+
+.main__thumb {
+  @include placeholders.container;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

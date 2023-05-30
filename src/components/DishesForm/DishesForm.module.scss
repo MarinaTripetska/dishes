@@ -1,0 +1,86 @@
+@use "../src/styles/variables" as variables;
+
+.form {
+  box-shadow: variables.$main-shadow;
+  border-radius: 10px;
+  width: 100%;
+  min-height: 590px;
+  overflow: hidden;
+  background: variables.$color-light;
+  display: flex;
+
+  &__title {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 30px;
+    margin-bottom: 37px;
+  }
+
+  &__images {
+    background-image: url("../../assets/images/bg-heading.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 40%;
+    height: 100%;
+  }
+
+  &__content {
+    padding: 80px 90px;
+    // display: flex;
+    // flex-direction: column;
+    // gap: 32px;
+  }
+
+  &__top_thumb {
+    display: flex;
+    justify-content: space-between;
+    // align-items: center;
+
+    gap: 32px;
+  }
+
+  &__input_group {
+    position: relative;
+    margin-bottom: 32px;
+    color: #525252;
+  }
+  &__input {
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  &__input:focus,
+  &__input:hover {
+    border-bottom: 1px solid #919191;
+  }
+
+  &__submit {
+    border-radius: 3px;
+    display: inline-block;
+    padding: 0 25px;
+    width: 100%;
+    max-width: 95px;
+    height: 40px;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 40px;
+    transition: all 0.4s ease;
+    color: variables.$color-light;
+    background: variables.$btn-bg-color;
+    cursor: pointer;
+  }
+}
+.validation_error {
+  font-size: 12px;
+
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+
+  color: rgb(243, 81, 81);
+}
+// .time_error {
+//   background-color: red;
+// }
+// .time_success {
+//   background-color: green;
+// }

@@ -1,9 +1,9 @@
+// Fonts:
+// - Roboto
 @import "@fontsource/roboto/500.css";
 @import "@fontsource/roboto/700.css";
 
-@import "styles/variables";
-
-/* Reset stylesЖ */
+/* Reset styles */
 *,
 *::before,
 *::after {
@@ -39,6 +39,24 @@ button,
 textarea,
 select {
   font: inherit;
+  color: inherit;
+}
+
+button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+}
+
+input {
+  outline: none;
+  margin: 0;
+  border: none;
+  box-shadow: none;
+  width: 100%;
+  font-size: 14px;
+  font-family: inherit;
 }
 
 @media (prefers-reduced-motion: reduce) {
