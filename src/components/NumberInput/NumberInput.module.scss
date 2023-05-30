@@ -22,9 +22,10 @@
 
 .validation_error {
   font-size: variables.$main-txt-size;
+  line-height: 1.2;
 
   position: absolute;
-  bottom: -20px;
+  bottom: -33px;
   left: 0;
 
   color: variables.$error-txt;

@@ -29,7 +29,7 @@ export const validationSchema = Yup.object().shape({
     then: (schema) =>
       schema
         .min(1, "1 is minimum slices of bread")
-        .max(10, "100 is minimum slices of bread")
+        .max(100, "100 is maximum slices of bread")
         .required("Required"),
   }),
 });
