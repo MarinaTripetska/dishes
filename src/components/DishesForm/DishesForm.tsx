@@ -124,6 +124,7 @@ const DishesForm: React.FC = () => {
                   label="Spiciness scale"
                   min="1"
                   max="10"
+                  placeholder="5"
                   component={NumberInput}
                 />
               )}
