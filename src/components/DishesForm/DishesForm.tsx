@@ -41,14 +41,13 @@ const DishesForm: React.FC = () => {
           } else {
             const data = await response.json();
             console.log("success POST: ", data);
-            // tostik?
             resetForm();
           }
         } catch (error) {
           console.error("Error:", error);
         } finally {
           setSubmitting(false);
-          setTimeout(() => setIsResponseError(false), 3000);
+          setTimeout(() => setIsResponseError(false), 5000);
         }
       }}
     >
@@ -93,61 +92,61 @@ const DishesForm: React.FC = () => {
               </div>
             </div>
 
-            {values.type === "pizza" && (
-              <div>
+            <div className={styles.form__bottom_thumb}>
+              {values.type === "pizza" && (
+                <>
+                  <Field
+                    id="no_of_slices"
+                    name="no_of_slices"
+                    label="Number of slices"
+                    placeholder="8"
+                    min="1"
+                    component={NumberInput}
+                  />
+
+                  <Field
+                    id="diameter"
+                    name="diameter"
+                    label="Diameter"
+                    placeholder="3.5"
+                    min="0.1"
+                    step="0.1"
+                    component={NumberInput}
+                  />
+                </>
+              )}
+
+              {values.type === "soup" && (
                 <Field
-                  id="no_of_slices"
-                  name="no_of_slices"
-                  label="Number of slices"
-                  placeholder="8"
+                  id="spiciness_scale"
+                  name="spiciness_scale"
+                  label="Spiciness scale"
                   min="1"
+                  max="10"
                   component={NumberInput}
                 />
+              )}
 
+              {values.type === "sandwich" && (
                 <Field
-                  id="diameter"
-                  name="diameter"
-                  label="Diameter"
-                  placeholder="3.5"
-                  min="0.1"
-                  step="0.1"
+                  id="slices_of_bread"
+                  name="slices_of_bread"
+                  label="Slices of bread"
+                  min="1"
+                  max="100"
+                  placeholder="2"
                   component={NumberInput}
                 />
-              </div>
-            )}
-
-            {values.type === "soup" && (
-              <Field
-                id="spiciness_scale"
-                name="spiciness_scale"
-                label="Spiciness scale"
-                min="1"
-                max="10"
-                component={NumberInput}
-              />
-            )}
-
-            {values.type === "sandwich" && (
-              <Field
-                id="slices_of_bread"
-                name="slices_of_bread"
-                label="Slices of bread"
-                min="1"
-                max="100"
-                placeholder="2"
-                component={NumberInput}
-              />
-            )}
+              )}
+            </div>
 
             <button
               type="submit"
               className={styles.form__submit}
               disabled={isSubmitting || !(dirty && isValid)}
             >
-              Submit
+              {isSubmitting ? "Submitting..." : "Submit"}
             </button>
-
-            {isSubmitting && <div>Submitting form...</div>}
 
             {/* Response validation errors: */}
             {isResponseError && Object.keys(errors).length > 0 && (

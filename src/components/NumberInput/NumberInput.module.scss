@@ -1,8 +1,29 @@
-.numberInput {
-  display: flex;
-  flex-direction: column;
+.thumb {
+  position: relative;
+  margin-bottom: 32px;
+  max-width: 200px;
+  color: #525252;
+
+  &__input_thumb {
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  &__input_thumb:focus,
+  &__input_thumb:hover {
+    border-bottom: 1px solid #919191;
+  }
+
+  &__input_label {
+    font-weight: 700;
+  }
 }
 
-.errorText {
-  color: red;
+.validation_error {
+  font-size: 12px;
+
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+
+  color: rgb(243, 81, 81);
 }
