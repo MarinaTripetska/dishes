@@ -6,6 +6,7 @@ Used packages and libraries:
 - **Formik**
 - **Yup**
 - **Eslint**
+- **React hot toast**
 - **Fontsource** for importing fonts as NPM dependency. About it's advantages you can read [here](https://fontsource.org/docs/getting-started/introduction)
 
 # [Link to live project](https://dishes-create-form.netlify.app/)
