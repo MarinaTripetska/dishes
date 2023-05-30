@@ -5,40 +5,47 @@ import { FormValues } from "../../types/formValues";
 import { createDish } from "../../API/dishes/create";
 import styles from "./DishesForm.module.scss";
 import Dropdown from "../Dropdown";
+import NumberInput from "../NumberInput/NumberInput";
 
 const initialValues: FormValues = {
   name: "",
   preparation_time: "",
   type: "pizza",
-  no_of_slices: 0,
-  diameter: 0.0,
-  spiciness_scale: 1,
-  slices_of_bread: 1,
+  no_of_slices: "",
+  diameter: "",
+  spiciness_scale: "",
+  slices_of_bread: "",
 };
 
 const DishesForm: React.FC = () => {
+  const [isResponseError, setIsResponseError] = React.useState(false);
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={async (values, { setSubmitting, resetForm, setErrors }) => {
         setSubmitting(true);
+
         try {
           const response = await createDish(values);
 
           if (!response.ok) {
             const error = await response.json();
-            // console.log(error);
+            console.log(error);
             setErrors(error);
+            setIsResponseError(true);
           } else {
-            // const data = await response.json();
-            // console.log("success POST: ", data);
+            const data = await response.json();
+            console.log("success POST: ", data);
             resetForm();
+            console.log(values);
           }
         } catch (error) {
           console.error("Error:", error);
         } finally {
           setSubmitting(false);
+          setTimeout(() => setIsResponseError(true), 3000);
         }
       }}
     >
@@ -74,11 +81,6 @@ const DishesForm: React.FC = () => {
                       name="preparation_time"
                       type="text"
                       placeholder="00:00:00"
-                      // className={
-                      //   errors.preparation_time && touched.preparation_time
-                      //     ? s.time_error
-                      //     : s.time_success
-                      // }
                     />
 
                     {errors.preparation_time && touched.preparation_time ? (
@@ -96,6 +98,7 @@ const DishesForm: React.FC = () => {
                   <Field
                     component={Dropdown}
                     name="type"
+                    id="type"
                     options={[
                       { value: "pizza", label: "Pizza" },
                       { value: "soup", label: "Soup" },
@@ -112,65 +115,49 @@ const DishesForm: React.FC = () => {
 
             {values.type === "pizza" && (
               <div>
-                <div>
-                  <label htmlFor="no_of_slices">Number of slices</label>
-                  <Field id="no_of_slices" name="no_of_slices" type="number" />
+                <Field
+                  id="no_of_slices"
+                  name="no_of_slices"
+                  label="Number of slices"
+                  placeholder="8"
+                  min="1"
+                  component={NumberInput}
+                />
 
-                  {errors.no_of_slices && touched.no_of_slices ? (
-                    <div>{errors.no_of_slices}</div>
-                  ) : null}
-                </div>
-
-                <div>
-                  <label htmlFor="diameter">Diameter</label>
-                  <Field
-                    id="diameter"
-                    name="diameter"
-                    type="number"
-                    step="0.1"
-                  />
-
-                  {errors.diameter && touched.diameter ? (
-                    <div>{errors.diameter}</div>
-                  ) : null}
-                </div>
+                <Field
+                  id="diameter"
+                  name="diameter"
+                  label="Diameter"
+                  placeholder="3.5"
+                  min="0.1"
+                  step="0.1"
+                  component={NumberInput}
+                />
               </div>
             )}
 
             {values.type === "soup" && (
-              <div>
-                <label htmlFor="spiciness_scale">Spiciness scale</label>
-                <Field
-                  id="spiciness_scale"
-                  name="spiciness_scale"
-                  type="number"
-                  min="1"
-                  max="10"
-                />
-
-                {errors.spiciness_scale && touched.spiciness_scale ? (
-                  <div>{errors.spiciness_scale}</div>
-                ) : null}
-              </div>
+              <Field
+                id="spiciness_scale"
+                name="spiciness_scale"
+                label="Spiciness scale"
+                min="1"
+                max="10"
+                component={NumberInput}
+              />
             )}
 
             {values.type === "sandwich" && (
-              <div>
-                <label htmlFor="slices_of_bread">Slices of bread</label>
-                <Field
-                  id="slices_of_bread"
-                  name="slices_of_bread"
-                  type="number"
-                  min="1"
-                  max="100"
-                />
-
-                {errors.slices_of_bread && touched.slices_of_bread ? (
-                  <div>{errors.slices_of_bread}</div>
-                ) : null}
-              </div>
+              <Field
+                id="slices_of_bread"
+                name="slices_of_bread"
+                label="Slices of bread"
+                min="1"
+                max="100"
+                placeholder="2"
+                component={NumberInput}
+              />
             )}
-
             <button
               type="submit"
               className={styles.form__submit}
@@ -179,6 +166,20 @@ const DishesForm: React.FC = () => {
               Submit
             </button>
             {isSubmitting && <div>Submitting form...</div>}
+
+            {/* Response validation errors: */}
+            {isResponseError && Object.keys(errors).length > 0 && (
+              <div className={styles.form__error}>
+                <h3>Errors:</h3>
+                <ul>
+                  {Object.keys(errors).map((key, i) => (
+                    <li key={i}>
+                      {key}: {errors[key as keyof FormValues]}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </Form>
       )}

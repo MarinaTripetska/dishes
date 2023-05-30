@@ -8,11 +8,13 @@ export const validationSchema = Yup.object().shape({
   type: Yup.string().oneOf(["pizza", "soup", "sandwich"]).required("Required"),
   no_of_slices: Yup.number().when("type", {
     is: "pizza",
-    then: (schema) => schema.required("Required"),
+    then: (schema) =>
+      schema.min(1, "1 is minimum of spiciness scale").required("Required"),
   }),
   diameter: Yup.number().when("type", {
     is: "pizza",
-    then: (schema) => schema.required("Required"),
+    then: (schema) =>
+      schema.min(0.1, "0.1 is minimum of spiciness scale").required("Required"),
   }),
   spiciness_scale: Yup.number().when("type", {
     is: "soup",

@@ -67,6 +67,14 @@
     color: variables.$color-light;
     background: variables.$btn-bg-color;
     cursor: pointer;
+
+    &:hover {
+      background: #4e9c41;
+    }
+    &:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
   }
 }
 .validation_error {

@@ -9,11 +9,11 @@ interface Props {
     onChange: () => void;
     onBlur: () => void;
   };
-  id?: string;
+  id: string;
   options: { label: string; value: string }[];
 }
 
-const Dropdown: React.FC<Props> = ({ field, options }) => {
+const Dropdown: React.FC<Props> = ({ field, id, options }) => {
   const { setFieldValue } = useFormikContext();
   const [isOpen, setIsOpen] = useState(false);
   const [focusIndex, setFocusIndex] = useState<number | null>(null);
@@ -70,7 +70,7 @@ const Dropdown: React.FC<Props> = ({ field, options }) => {
   };
 
   return (
-    <div className={styles.dropdown}>
+    <div className={styles.dropdown} id={id}>
       <div
         className={styles.dropdown__selected}
         onClick={toggle}
